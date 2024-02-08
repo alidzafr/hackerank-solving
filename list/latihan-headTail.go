@@ -1,4 +1,4 @@
-package main
+package list
 
 import (
 	"fmt"
@@ -9,12 +9,12 @@ type SinglyLinkedListNode struct {
 	Next *SinglyLinkedListNode
 }
 
-type List struct {
-	Head   *SinglyLinkedListNode
+type list struct {
+	Head   *SinglyLinkedlistNode
 	length int
 }
 
-func (l *List) Append(data int) {
+func (l *list) Append(data int) {
 	node := &SinglyLinkedListNode{Data: data, Next: nil}
 	if l.Head == nil {
 		l.Head = node
@@ -27,7 +27,7 @@ func (l *List) Append(data int) {
 	}
 }
 
-func (l *List) InsertNodeAtPosition(data, position int) {
+func (l *list) InsertNodeAtPosition(data, position int) {
 	curr := l.Head
 	count := 1
 	for count != position {
@@ -39,7 +39,7 @@ func (l *List) InsertNodeAtPosition(data, position int) {
 	curr.Next = node
 }
 
-func (l *List) deleteNode(position int) {
+func (l *list) deleteNode(position int) {
 	if l.Head == nil {
 		return
 	}
@@ -60,7 +60,7 @@ func (l *List) deleteNode(position int) {
 
 }
 
-func (l List) Print() {
+func (l list) Print() {
 	p := l.Head
 	fmt.Print("Head")
 	for p != nil {
@@ -72,7 +72,7 @@ func (l List) Print() {
 	fmt.Printf("\n")
 }
 
-func (l *List) Reverse() *SinglyLinkedListNode {
+func (l *list) Reverse() *SinglyLinkedListNode {
 	prev := &SinglyLinkedListNode{}
 	curr := l.Head
 
