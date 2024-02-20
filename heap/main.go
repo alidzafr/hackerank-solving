@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"container/heap"
 	"fmt"
+	"math/rand"
 	"os"
 	"strconv"
 	"strings"
@@ -98,7 +99,7 @@ func qHeap1() {
 
 }
 
-func main() {
+func jesseandCookies() {
 	h := &IntHeap{}
 	// scanner := bufio.NewScanner(os.Stdin)
 
@@ -154,4 +155,77 @@ func main() {
 	}
 	fmt.Println("result ", h)
 	fmt.Println("index ", index)
+}
+
+func main() {
+	a := []int{9, 8, 7, 6, 5, 4, 3, 2, 1, 10}
+	small := &IntHeap{} // Lower half of the input
+	large := &IntHeap{} // Upper half of the input
+	ans := []float64{}  // List of median values
+
+	var low, hi, med float64
+
+	for i := range a {
+		// First, sort the list value into the correct half.
+		// We'll prioritize high to minimize negative inversion.
+
+		if i == 0 || a[i] >= int(med) {
+			heap.Push(large, a[i])
+		} else {
+			heap.Push(small, a[i]*-1)
+		}
+
+		// Now make sure the halves are equally sized. Since high
+		// is filled first, it can be one element longer than low.
+		// Otherwise they must have equal lengths.
+
+		if large.Len()-small.Len() > 1 {
+			heap.Push(small, heap.Pop(large).(int)*-1)
+		} else if small.Len() > large.Len() {
+			heap.Push(large, heap.Pop(small).(int)*-1)
+		}
+
+		// Rest of the logic is easy. If high is longer than low,
+		// there's an odd number of elements in the list, and the
+		// middle value is the bottom of high. Otherwise, there's
+		// an even number of elements in the list, so the median
+		// is half the sum of each half's 0th element. Since low is
+		// stored negative, we'll just subtract it to find the sum.
+
+		if large.Len() > small.Len() {
+			hi = float64((*large)[0])
+			med = hi
+		} else {
+			low = float64((*small)[0])
+			hi = float64((*large)[0])
+			med = (hi - low) / 2
+		}
+
+		ans = append(ans, med)
+	}
+
+	fmt.Printf("%.1f\n", ans)
+}
+
+func quicksort(a []int32) []int32 {
+	if len(a) < 2 {
+		return a
+	}
+
+	left, right := 0, len(a)-1
+	center := rand.Int() % len(a)
+
+	a[center], a[right] = a[right], a[center]
+
+	for i := range a {
+		if a[i] < a[right] {
+			a[left], a[i] = a[i], a[left]
+			left++
+		}
+	}
+	a[left], a[right] = a[right], a[left]
+
+	quicksort((a[:left]))
+	quicksort(a[left+1:])
+	return a
 }

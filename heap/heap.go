@@ -114,7 +114,43 @@ func (h *maxHeap) has(element int) bool {
 	return false
 }
 
-func main() {
+// func (h *maxHeap) len() int {
+
+// }
+
+// NOT WORKING !!
+func median() {
+	a := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+
+	g := &maxHeap{}
+	s := &maxHeap{}
+
+	result := []float32{}
+
+	for i := range a {
+		g.insert(a[i])
+		// x := g.extract()
+		s.insert(g.extract())
+
+		if len(g.array) > len(s.array) {
+			// x = heap.Pop(g)
+			s.insert(g.extract())
+		}
+		if len(g.array) != len(s.array) {
+			// y := (*s)[0]
+			result = append(result, float32(s.array[0]))
+		} else {
+			// result = append(result, float32(((*g)[0]-(*s)[0])/2))
+			result = append(result, float32(((g.array)[0]-(s.array)[0])/2))
+		}
+	}
+	for i := range result {
+		fmt.Printf("%v\n", result[i])
+	}
+}
+
+// NOT WORKING !!!
+func printValue() {
 	m := &maxHeap{}
 	lookup := []int{}
 	// fmt.Println(m)
